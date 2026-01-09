@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, filter, finalize, Observable, of, Subject, switchMap, take, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, filter, finalize, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { User } from '../entities/User';
 
 declare const google: any;
@@ -23,7 +23,7 @@ export class AuthService {
     private _accessInProgress: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private _refreshInProgress: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router) {}
 
     get access_token(): string { return this._access_token; }
 
@@ -43,43 +43,47 @@ export class AuthService {
                 callback: this.handleCredentialResponse.bind(this),
                 auto_select: false,
                 cancel_on_tap_outside: true,
-                login_uri: environment.LOGIN_URL,
+                login_uri: environment.LOGIN_URI,
                 color_scheme: "dark"
             });
             // google.accounts.id.prompt();  // One Tap
+
             this.initialized = true;
+        } else {
+            console.log("Failed to initialize Google")
         }
     }
 
     handleCredentialResponse(google_response: any) {  // callback for google login
         console.log("handleCredentialResponse()");
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8')
-        this.http.post<AuthResponse>(environment["LOGIN_URL"], JSON.stringify(google_response.credential), { withCredentials: true, headers: headers }).subscribe({
+        this.http.post<AuthResponse>(environment["LOGIN_URI"], JSON.stringify(google_response.credential), { withCredentials: true, headers: headers }).subscribe({
             next: (res: any) => {
                 if (res) {
-                    this._access_token = res.access_token;
+                    this._access_token = res.access_token
                     var decoded = this.decodedAccessToken(res.access_token)
                     this._user = {
                         Id: decoded.sub,
                         Name: decoded.name,
                         Roles: decoded.Roles
                     }
-                    console.log(`Logged in ${decoded.name}!`);
-                    this.router.navigate(["/home"]);
+                    console.log(`Logged in ${decoded.name}!`)
+                    this.router.navigate(["/home"])
                 }
             },
             error: (err) => {
-                console.error("handleCredentialResponse()");
+                console.error("handleCredentialResponse()")
                 switch (err.status) {
                     case HttpStatusCode.Unauthorized:
-                        console.error("Unauthorized");
-                        this.router.navigate(["/unauthorized"]);
+                        console.error("Unauthorized")
+                        this.router.navigate(["/unauthorized"])
                         break;
                     case HttpStatusCode.BadRequest:
-                        console.error("Bad Request");
-                        break;
+                        console.error("Bad Request")
+                        break
                     default:
-                        console.error('Login failed', err);
+                        console.error('Login failed', err)
+                        this.router.navigate(["/500"])
                 }
             }
         });
@@ -101,7 +105,7 @@ export class AuthService {
         this._accessInProgress.next(true);
 
         console.log("AuthService->access")
-        return this.http.post<string>(environment.ACCESS_URL, null, { withCredentials: true }).pipe(
+        return this.http.post<string>(environment.ACCESS_URI, null, { withCredentials: true }).pipe(
             switchMap((res: any) => {
                 console.log("AuthService.access->success")
                 this._access_token = res.access_token
@@ -137,7 +141,7 @@ export class AuthService {
         this._refreshInProgress.next(true)
 
         console.log("AuthService->refresh")
-        return this.http.post<{ response: AuthResponse }>(environment.REFRESH_URL, null, { withCredentials: true }).pipe(
+        return this.http.post<{ response: AuthResponse }>(environment.REFRESH_URI, null, { withCredentials: true }).pipe(
             tap((success: any) => {
                 if (!success) {
                     console.log("Refresh not successful");
@@ -210,7 +214,7 @@ export class AuthService {
     }
 
     signout() {
-        this.http.post(environment.LOGOUT_URL, null, { withCredentials: true }).subscribe({
+        this.http.post(environment.LOGOUT_URI, null, { withCredentials: true }).subscribe({
             next: (res: any) => {
                 console.log("signout()");
                 this.clear()

@@ -8,10 +8,11 @@ import { UsersComponent } from './components/users/users';
 import { UsersCreateComponent } from './components/users.create/users.create';
 import { UsersUpdateComponent } from './components/users.update/users.update';
 import { RolesComponent } from './components/roles/roles';
-import { UnauthorizedComponent } from './components/unauthorized.component/unauthorized.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized';
 import { ParamedicAcceptedComponent } from './components/paramedic-accepted/paramedic-accepted';
 import { ParamedicRequestedComponent } from './components/paramedic-requested/paramedic-requested';
 import { ManagementPlanningComponent } from './components/management-planning/management-planning';
+import { Error500 } from './components/error500/error500';
 
 export const routes: Routes = [
     {
@@ -61,6 +62,10 @@ export const routes: Routes = [
     {
         component: UnauthorizedComponent,
         path: "unauthorized"
+    },
+    {
+        component: Error500,
+        path: "500"
     },
     {
         path: "**",

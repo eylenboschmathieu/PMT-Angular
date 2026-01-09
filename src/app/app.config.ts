@@ -48,7 +48,9 @@ export const appConfig: ApplicationConfig = {
                         })
                     );
                 }
-                return throwError(() => err.error)
+                router.navigate(["/login"])
+                return of();
+                // return throwError(() => err.error)
             })
         );
     }),
