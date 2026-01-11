@@ -4,7 +4,7 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DayRequest } from '../entities/DayRequest';
 import { DateDTO } from '../entities/DateRequest';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export class PlannedUser {
     id!: number  // Id of the request, not the user

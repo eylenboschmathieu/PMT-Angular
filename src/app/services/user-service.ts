@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, ObjectUnsubscribedError, Observable, of, tap } from 'rxjs';
 import { Role } from './RoleService';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export class NewUserDTO {
     public Email: string = null!;
@@ -61,7 +61,7 @@ export class UserService {
         );
     }
 
-    list(): Observable<UserSelectDTO[]> {  // Response returns {Id, Name, Icon}*
+    list(): Observable<UserSelectDTO[]> {  // Response returns { Id, Name, Icon }*
         return this.http.get<UserSelectDTO[]>(this.url + "/select").pipe(
             tap(req => console.log(req)),
             catchError(this.handleError("select", []))

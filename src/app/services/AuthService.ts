@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { User } from '../entities/User';
+import { ShiftService } from './ShiftService';
 
 declare const google: any;
 
@@ -23,7 +24,7 @@ export class AuthService {
     private _accessInProgress: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private _refreshInProgress: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private shiftService: ShiftService) {}
 
     get access_token(): string { return this._access_token; }
 
@@ -68,6 +69,7 @@ export class AuthService {
                         Roles: decoded.Roles
                     }
                     console.log(`Logged in ${decoded.name}!`)
+                    this.shiftService.get_shift_hours()
                     this.router.navigate(["/home"])
                 }
             },

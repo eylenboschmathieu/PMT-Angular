@@ -8,40 +8,47 @@
                 }
             </select>
         } @else {
-            <p>{{users[0].name}}</p>
+            <p>{{ users[0].name }}</p>
         }
-        <select [(ngModel)]="selected_date" (ngModelChange)="selectDate($event)">
-            @for (date of dates; track $index) {
-                <option [ngValue]="date.date">{{ date.date | date:"MMMM yyyy" }}</option>
-            }
-        </select>
+
+        @if (dates.length > 0) {
+            <select [(ngModel)]="selected_date" (ngModelChange)="selectDate($event)">
+                @for (date of dates; track $index) {
+                    <option [ngValue]="date.date">{{ date.date | date:"MMMM yyyy" }}</option>
+                }
+            </select>
+        }
     </div>
 
-    @if (accepted_shifts && accepted_shifts.shifts.length > 0) {
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 128px">Date</th>
-                        <th>
-                            <span>Shifts ({{ accepted_shifts.shifts.length }})</span>
-                            <span class="totalHours">Total hours: {{ accepted_shifts.totalHours }}</span>
-                        </th>
-                    <tr>
-                </thead>
-                <tbody>
-                    @if (accepted_shifts != null) {       
-                        @for (shift of accepted_shifts.shifts; track $index) {
-                            <tr>
-                                <td>{{shift.from |  date:'E d MMM'}}</td>
-                                <td>{{shift.from | date:'HH:mm'}} - {{shift.to | date:'HH:mm'}}</td>
-                            </tr>
+    @if (dates.length > 0) {
+        @if (accepted_shifts && accepted_shifts.shifts.length > 0) {
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 128px">Date</th>
+                            <th>
+                                <span>Shifts ({{ accepted_shifts.shifts.length }})</span>
+                                <span class="totalHours">Total hours: {{ accepted_shifts.totalHours }}</span>
+                            </th>
+                        <tr>
+                    </thead>
+                    <tbody>
+                        @if (accepted_shifts != null) {       
+                            @for (shift of accepted_shifts.shifts; track $index) {
+                                <tr>
+                                    <td>{{shift.from |  date:'E d MMM'}}</td>
+                                    <td>{{shift.from | date:'HH:mm'}} - {{shift.to | date:'HH:mm'}}</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        } @else {
+            <h3>No shifts for this month</h3>
+        }
     } @else {
-        <h3>No shifts for this month</h3>
+        <h2>There currently is no planning</h2>
     }
 }

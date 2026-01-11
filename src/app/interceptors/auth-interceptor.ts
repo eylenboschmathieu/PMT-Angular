@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpReq
 import { AuthService } from '../services/AuthService';
 import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
     if ([environment.ENDPOINT_URI + "/login", environment.ENDPOINT_URI + "/access", environment.ENDPOINT_URI + "/refresh"].includes(req.url))

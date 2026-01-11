@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, tap } from "rxjs";
 import { Observable, of } from "rxjs";
 import { Role } from "../entities/Role";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 
 export { Role } from "../entities/Role";
 
