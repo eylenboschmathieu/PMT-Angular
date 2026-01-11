@@ -7,8 +7,6 @@
                     <option class="option" [ngValue]="user">{{ user.name }}</option>
                 }
             </select>
-        } @else {
-            <p>{{ users[0].name }}</p>
         }
 
         @if (dates.length > 0) {
@@ -49,6 +47,6 @@
             <h3>No shifts for this month</h3>
         }
     } @else {
-        <h2>There currently is no planning</h2>
+        <h2 class="alert alert-info mx-2">There currently is no planning</h2>
     }
 }
