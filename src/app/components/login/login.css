@@ -11,11 +11,21 @@ p {
 }
 
 label, input, button {
+    margin: 8px auto;
     display: block;
 }
 
+input {
+    width: 100%;
+}
+
 button {
-    margin-top: 32px;
+    margin: 32px auto;
+}
+
+form {
+    width: 312px;
+    margin: 64px auto;
 }
 
 @media (max-width: 768px) {
@@ -25,7 +35,6 @@ button {
 
     label {
         width: calc(100% - 32px);
-        margin: 8px auto;
     }
 
     input {

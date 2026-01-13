@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { AuthService } from '../../services/AuthService';
+import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
 import { NewUserDTO, UserService } from '../../services/user-service';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -42,10 +42,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }
 
         let user: NewUserDTO = {
-            Roles: [2, 3, 4],
+            Roles: [2, 3, 4],  // Everything except admin
             Email: this.createForm.get("email")!.value!
         };
-        this.userService.demo_add(user).subscribe({
+        this.userService.demo_new(user).subscribe({
             next: () => {
                 this.createForm.reset()
             }
