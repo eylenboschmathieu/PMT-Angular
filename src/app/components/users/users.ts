@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
-
 import { UserService, UserDTO } from '../../services/user-service';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
     selector: 'app-users.component',
