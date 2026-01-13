@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AcceptedShifts } from '../entities/AcceptedShift';
+import { AcceptedShifts as AcceptedShiftsDTO } from '../entities/AcceptedShift';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { DayRequest } from '../entities/DayRequest';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { DayRequest as DayRequestDTO } from '../entities/DayRequest';
 import { DateDTO } from '../entities/DateRequest';
 import { environment } from '../../environments/environment';
 
@@ -17,7 +17,7 @@ export class PlannedShift {
     confirmed!: PlannedUser[]
 }
 
-export class PlannedDay {
+export class PlannedDayDTO {
     date!: Date
     shifts!: PlannedShift[]
 }
@@ -91,12 +91,18 @@ export class ShiftService {
     }
 
     // Get all request data of a certain user for the chosen year/month
-    get_requested(userId: number, year: number, month: number): Observable<DayRequest[]> {
-        return this.http.get<DayRequest[]>(this.url + "/requests/" + userId + "/" + year + "/" + month).pipe(
+    get_requested(userId: number, year: number, month: number): Observable<DayRequestDTO[]> {
+        const queryParams = (userId && year && month) ? { params: new HttpParams()
+            .set('userId', userId)
+            .set('year', year)
+            .set('month', month)
+        } : {};
+
+        return this.http.get<DayRequestDTO[]>(this.url + "/requests", queryParams).pipe(
             tap(req => console.log(req)),
-            catchError(this.handleError("get_requested", <DayRequest[]>[])),
-            map((dto: DayRequest[]) =>
-                dto.map(data => <DayRequest> {
+            catchError(this.handleError("get_requested", <DayRequestDTO[]>[])),
+            map((dto: DayRequestDTO[]) =>
+                dto.map(data => <DayRequestDTO> {
                     date: new Date(data.date),
                     id: data.id,
                     shifts: data.shifts
@@ -106,17 +112,28 @@ export class ShiftService {
     }
 
     // Get all planning data for the chosen year/month
-    get_planning(year: number, month: number): Observable<PlannedDay[]> {
-        return this.http.get<PlannedDay[]>(this.url + "/planning/" + year + "/" + month).pipe(
+    get_planning(year: number, month: number): Observable<PlannedDayDTO[]> {
+        const queryParams = (year && month) ? { params: new HttpParams()
+            .set('year', year)
+            .set('month', month)
+        } : {};
+
+        return this.http.get<PlannedDayDTO[]>(this.url + "/planning", queryParams).pipe(
             tap(req => console.log(req)),
-            catchError(this.handleError("get_planned", <PlannedDay[]>[]))
+            catchError(this.handleError("get_planned", <PlannedDayDTO[]>[]))
         )
     }
 
-    get_confirmed_shifts(userId: number, year: number, month: number): Observable<AcceptedShifts> { // Get all shifts you requested that were planned
-        return this.http.get<AcceptedShifts>(this.url + "/confirmed/" + userId + "/" + year + "/" + month).pipe(
+    get_confirmed_shifts(userId: number, year: number, month: number): Observable<AcceptedShiftsDTO> { // Get all shifts you requested that were planned
+        const queryParams = (userId && year && month) ? { params: new HttpParams()
+            .set('userId', userId)
+            .set('year', year)
+            .set('month', month)
+        } : {};
+
+        return this.http.get<AcceptedShiftsDTO>(this.url + "/confirmed", queryParams).pipe(
             tap(req => console.log(req)),
-            catchError(this.handleError("get_confirmed", <AcceptedShifts>{}))
+            catchError(this.handleError("get_confirmed", <AcceptedShiftsDTO>{}))
         );
     }
 
@@ -129,7 +146,9 @@ export class ShiftService {
     }
 
     update_shift_request(userId: number, shift: Date, isRequested: boolean): Observable<boolean> {
-        return this.http.put<boolean>(this.url + "/requests/update/" + userId, { shift: shift.toISOString(), isRequested: isRequested }).pipe(
+        const queryParams = userId ? { params: new HttpParams().set('userId', userId) } : {};
+
+        return this.http.put<boolean>(this.url + "/requests/update/", { shift: shift.toISOString(), isRequested: isRequested }, queryParams).pipe(
             tap(req => console.log(req)),
             catchError(this.handleError("update_shift_request", false))
         )
