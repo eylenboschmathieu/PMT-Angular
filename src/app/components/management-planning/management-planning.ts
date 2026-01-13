@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { ShiftService, PlannedDay, PlannedShift, UpdateShiftPlanningDTO } from '../../services/shift-service';
+import { ShiftService, PlannedDayDTO, PlannedShift, UpdateShiftPlanningDTO } from '../../services/shift-service';
 import { DateDTO } from '../../entities/DateRequest';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -19,7 +19,7 @@ export class ManagementPlanningComponent {
     dates: DateDTO[] = []
     selected_date!: DateDTO
 
-    days: PlannedDay[] = []
+    days: PlannedDayDTO[] = []
 
     ngOnInit(): void {
         this.shiftService.get_planning_dates().subscribe({
@@ -35,7 +35,7 @@ export class ManagementPlanningComponent {
     selectDate(date: DateDTO): void {
         this.selected_date = date
         this.shiftService.get_planning(this.selected_date.date.getFullYear(), this.selected_date.date.getMonth() + 1).subscribe({
-            next: (planned_days: PlannedDay[]) => {
+            next: (planned_days: PlannedDayDTO[]) => {
                 this.days = planned_days
             }
         })
