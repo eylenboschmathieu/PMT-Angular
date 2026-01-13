@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { User } from '../entities/User';
-import { ShiftService } from './ShiftService';
+import { ShiftService } from './shift-service';
 
 declare const google: any;
 

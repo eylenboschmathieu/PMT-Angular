@@ -3,8 +3,8 @@ import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { UserSelectDTO, UserService } from '../../services/user-service';
-import { ShiftService } from '../../services/ShiftService';
-import { AuthService } from '../../services/AuthService';
+import { ShiftService } from '../../services/shift-service';
+import { AuthService } from '../../services/auth-service';
 import { DayShiftRequest } from "../paramedic-requested-day/paramedic-requested-day";
 import { DayRequest } from '../../entities/DayRequest';
 import { DateDTO } from '../../entities/DateRequest';

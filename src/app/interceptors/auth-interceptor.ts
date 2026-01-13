@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpStatusCode } from '@angular/common/http';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/auth-service';
 import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -11,7 +11,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
             environment.ENDPOINT_URI + "/login",
             environment.ENDPOINT_URI + "/access",
             environment.ENDPOINT_URI + "/refresh",
-            environment.ENDPOINT_URI + "/users/demo_new"
+            environment.ENDPOINT_URI + "/user/demo_new"
         ].includes(req.url))
         return next(req);
 

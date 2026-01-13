@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 
-import { UserService, UserResponse } from '../../services/user-service';
+import { UserService, UserDTO } from '../../services/user-service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
     selector: 'app-users.component',
@@ -13,11 +14,11 @@ import { UserService, UserResponse } from '../../services/user-service';
 export class UsersComponent implements OnInit {
     constructor(private userService: UserService) {}
 
-    users: UserResponse[] = [];
+    users: UserDTO[] = [];
 
     ngOnInit(): void {
         this.userService.all().subscribe({
-            next: (users: UserResponse[]) => this.users = users
+            next: (users: UserDTO[]) => this.users = users
         })
     }
 }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { UserService, UserSelectDTO } from '../../services/user-service';
-import { ShiftService } from '../../services/ShiftService';
+import { ShiftService } from '../../services/shift-service';
 import { AcceptedShifts } from '../../entities/AcceptedShift';
 import { DatePipe } from '@angular/common';
 import { DateDTO } from '../../entities/DateRequest';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/AuthService';
+import { AuthService } from '../../services/auth-service';
 import { RouterLink } from '@angular/router';
 
 @Component({

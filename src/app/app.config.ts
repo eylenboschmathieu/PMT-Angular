@@ -3,9 +3,9 @@ import { provideRouter, Router } from '@angular/router'
 import { HttpStatusCode, provideHttpClient, withInterceptors } from '@angular/common/http'
 import { routes } from './app.routes'
 import { AuthInterceptor } from './interceptors/auth-interceptor'
-import { AuthService } from './services/AuthService'
+import { AuthService } from './services/auth-service'
 import { catchError, firstValueFrom, of, retry, switchMap, tap, throwError } from 'rxjs'
-import { ShiftService } from './services/ShiftService'
+import { ShiftService } from './services/shift-service'
 
 export const appConfig: ApplicationConfig = {
   providers: [

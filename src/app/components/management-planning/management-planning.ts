@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { ShiftService, PlannedDay, PlannedShift, UpdateShiftPlanningDTO } from '../../services/ShiftService';
+import { ShiftService, PlannedDay, PlannedShift, UpdateShiftPlanningDTO } from '../../services/shift-service';
 import { DateDTO } from '../../entities/DateRequest';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';

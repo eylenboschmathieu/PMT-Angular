@@ -5,8 +5,8 @@ import { AuthGuard } from './guards/auth-guard';
 import { HomeComponent } from './components/home/home';
 import { LoginComponent } from './components/login/login';
 import { UsersComponent } from './components/users/users';
-import { UsersCreateComponent } from './components/users.create/users.create';
-import { UsersUpdateComponent } from './components/users.update/users.update';
+import { UserNewComponent } from './components/user.new/user.new';
+import { UserUpdateComponent } from './components/user.update/user.update';
 import { RolesComponent } from './components/roles/roles';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized';
 import { ParamedicAcceptedComponent } from './components/paramedic-accepted/paramedic-accepted';
@@ -45,13 +45,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        component: UsersCreateComponent,
-        path: "users/new",
+        component: UserNewComponent,
+        path: "user/new",
         canActivate: [AuthGuard]
     },
     {
-        component: UsersUpdateComponent,
-        path: "user/:id",
+        component: UserUpdateComponent,
+        path: "user",
         canActivate: [AuthGuard]
     },
     {
