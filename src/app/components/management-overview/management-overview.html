@@ -7,6 +7,7 @@
                 <tr>
                     <td>Name</td>
                     <td>Total</td>
+                    <td>Requested</td>
                     @for (month of overview_data.months; track $index) {
                         <td>{{ month | date:"yyyy - MM" }}</td>
                     }
@@ -17,7 +18,8 @@
                     <tr>
                         <td>{{ user.name }}</td>
                         <td>{{ user.total }}</td>
-                        @for (hours of user.hours; track $index) {
+                        <td>{{ (user.total / user.requested) * 100 | number:'1.0-0' }}%</td>
+                        @for (hours of user.confirmed; track $index) {
                             <td>{{ hours }}</td>
                         }
                     </tr>

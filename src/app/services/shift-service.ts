@@ -38,8 +38,10 @@ export class UpdateShiftPlanningDTO {
 }
 
 class OverviewDataUser {
+    id!: number
     name!: string
-    hours!: number[]
+    confirmed!: number[]
+    requested!: number
     total!: number
 }
 
@@ -188,24 +190,32 @@ export class ShiftService {
             ],
             users: [
                 {
+                    id: 1,
                     name: "Eylenbosch Mathieu",
-                    hours: [12, 36, 48, 12, 0, 4, 14, 60, 8, 16],
-                    total: 1234
+                    confirmed: [12, 36, 48, 12, 0, 4, 14, 60, 8, 16],
+                    total: 1234,
+                    requested: 2345
                 },
                 {
+                    id: 2,
                     name: "Eylenbosch Margot",
-                    hours: [4, 14, 60, 8, 16, 4, 14, 60, 8, 16],
-                    total: 3456
+                    confirmed: [4, 14, 60, 8, 16, 4, 14, 60, 8, 16],
+                    total: 3456,
+                    requested: 4567
                 },
                 {
+                    id: 3,
                     name: "Eylenbosch Matthias",
-                    hours: [8, 20, 40, 60, 4, 4, 14, 60, 8, 16],
-                    total: 455
+                    confirmed: [8, 20, 40, 60, 4, 4, 14, 60, 8, 16],
+                    total: 455,
+                    requested: 2223
                 },
                 {
+                    id: 4,
                     name: "Eylenbosch Marjolein",
-                    hours: [48, 0, 12, 0, 0, 4, 14, 60, 8, 16],
-                    total: 1112
+                    confirmed: [48, 0, 12, 0, 0, 4, 14, 60, 8, 16],
+                    total: 1112,
+                    requested: 1112
                 },
             ]
         }
