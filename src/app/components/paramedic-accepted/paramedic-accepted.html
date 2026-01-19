@@ -35,8 +35,8 @@
                         @if (accepted_shifts != null) {       
                             @for (shift of accepted_shifts.shifts; track $index) {
                                 <tr>
-                                    <td>{{shift.from |  date:'E d MMM'}}</td>
-                                    <td>{{shift.from | date:'HH:mm'}} - {{shift.to | date:'HH:mm'}}</td>
+                                    <td>{{ shift.from | date:'E d MMM' }}</td>
+                                    <td>{{ shift.from | date:'HH:mm' }} - {{ shift.to | date:'HH:mm' }}</td>
                                 </tr>
                             }
                         }

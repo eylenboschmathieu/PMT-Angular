@@ -54,9 +54,7 @@ export class UserService {
     }
 
     get(userId: number): Observable<UserDataDTO> {
-        const queryParams = userId ? { params: new HttpParams().set('userId', userId) } : {};
-
-        return this.http.get<UserDataDTO>(this.url + "/user", queryParams).pipe(
+        return this.http.get<UserDataDTO>(this.url + "/user/" + userId).pipe(
             tap(req => console.log(req)),
             catchError(this.handleError("get", new UserDataDTO()))
         );
@@ -71,20 +69,18 @@ export class UserService {
 
     new(user: NewUserDTO): Observable<void> {
         return this.http.post<void>(this.url + "/user/new", user).pipe(
-            catchError(this.handleError("add", void 0))
+            catchError(this.handleError("new", void 0))
         );
     }
 
     demo_new(user: NewUserDTO): Observable<void> {
         return this.http.post<void>(this.url + "/user/demo_new", user).pipe(
-            catchError(this.handleError("add", void 0))
+            catchError(this.handleError("demo_new", void 0))
         );
     }
 
     update(user: UpdateUserDTO): Observable<boolean> {
-        const options = (user && user.id) ? { params: new HttpParams().set("userId", user.id) } : {};
-
-        return this.http.put<boolean>(this.url + "/user/update", user, options).pipe(
+        return this.http.patch<boolean>(this.url + "/user/update/" + user.id, user).pipe(
             catchError(this.handleError("update", false))
         );
     }
