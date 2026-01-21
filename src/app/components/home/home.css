@@ -14,6 +14,29 @@ section {
     background: linear-gradient(to right, darkslateblue, rgb(92, 92, 255))
 }
 
+section.countdown {
+    h1>span {
+        font-size: inherit;
+        color: orange;
+    }
+
+    div {
+        width: 100%;
+    }
+
+    div>span {
+        display: inline-block;
+        margin: 8px 8px;
+        background-color: #118;
+        border-radius: 8px;
+        border: 1px solid black;
+        padding: 8px;
+        color: orangered;
+        min-width: fit-content;
+        width: fit-content;
+    }
+}
+
 section > h2 {
     color: khaki;
     text-decoration: underline;
@@ -75,6 +98,10 @@ a {
         border-left: 0;
         border-right: 0;
         width: 100dvw;
+    }
+
+    section.countdown span {
+        font-size: 1.4em;
     }
 
     a.link {

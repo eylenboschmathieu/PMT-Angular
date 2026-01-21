@@ -1,5 +1,15 @@
 <h2 class="text-center mt-2 text-light">Paramedic Management Tool</h2>
 
+<section class="countdown">
+    <h1><span>{{ month | date: "MMMM" }}</span> signups expire in:</h1>
+    <div>
+        <span>{{ remaining.days }} days</span>
+        <span>{{ remaining.hours }} hours</span>
+        <span>{{ remaining.minutes }} minutes</span>
+        <span>{{ remaining.seconds }} seconds</span>
+    </div>
+</section>
+
 <section>
     <span>🚑</span><h2>Paramedic</h2>
     <div class="d-flex flex-wrap">
