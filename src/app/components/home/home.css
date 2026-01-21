@@ -11,7 +11,7 @@ section {
     border: 2px 0;
     padding: 16px;
     margin-bottom: 16px;
-    background-color: darkslateblue;
+    background: linear-gradient(to right, darkslateblue, rgb(92, 92, 255))
 }
 
 section > h2 {
@@ -33,7 +33,7 @@ a.link {
     padding: 16px;
     width: 220px;
     margin: 12px;
-    background-color: rgb(64, 64, 255);
+    background-color: #118;
     border-radius: 8px;
     text-decoration: none;
 }
