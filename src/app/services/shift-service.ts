@@ -86,20 +86,14 @@ export class ShiftService {
         })
     }
 
-    // Get all year/month dates of all planning that was ever done
-    get_planning_dates(): Observable<DateDTO[]> {
+    // Get dates of all months that are open for requesting shifts
+    get_requested_dates(): Observable<Date[]> {
         // C# DateOnly objects are fetched from backend, so have to map them to Typescript Date objects.
         // Are treated as strings otherwise
-        return this.http.get<DateDTO[]>(`${this.url}/planning/dates`).pipe(
+        return this.http.get<Date[]>(`${this.url}/requests/dates`).pipe(
             tap(res => console.log(res)),
-            catchError(this.handleError("get_planning_dates", [])),
-            map((dto: DateDTO[]) =>
-                dto.map(e => ({
-                        date: new Date(e.date),
-                        locked: e.locked
-                    })
-                )
-            )
+            catchError(this.handleError("get_requested_dates", [])),
+            map((dto: Date[]) => dto.map(e => new Date(e)))
         )
     }
 
@@ -114,6 +108,23 @@ export class ShiftService {
                     id: data.id,
                     shifts: data.shifts
                 })
+            )
+        )
+    }
+
+    // Get all year/month dates of all planning that was ever done
+    get_planning_dates(): Observable<DateDTO[]> {
+        // C# DateOnly objects are fetched from backend, so have to map them to Typescript Date objects.
+        // Are treated as strings otherwise
+        return this.http.get<DateDTO[]>(`${this.url}/planning/dates`).pipe(
+            tap(res => console.log(res)),
+            catchError(this.handleError("get_planning_dates", [])),
+            map((dto: DateDTO[]) =>
+                dto.map(e => ({
+                        date: new Date(e.date),
+                        locked: e.locked
+                    })
+                )
             )
         )
     }

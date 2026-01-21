@@ -30,11 +30,11 @@ export class ParamedicRequestedComponent {
     initialized!: boolean
 
     users: UserSelectDTO[] = []
-    dates: DateDTO[] = []
+    dates: Date[] = []
     days: DayRequest[] = []
 
     selected_user!: UserSelectDTO
-    selected_date!: DateDTO
+    selected_date!: Date
 
     ngOnInit(): void {
         this.userService.list().subscribe({
@@ -46,12 +46,9 @@ export class ParamedicRequestedComponent {
                     var index = this.users.findIndex(e => e.id == myId)
                     this.selected_user = users[Math.max(0, index)]
 
-                    this.shiftService.get_planning_dates().subscribe({
-                        next: (dates: DateDTO[]) => {
-                            // Don't allow shift requests after the cut-off date, or when the planning is already locked
-                            var today: Date = new Date()
-                            var todayUTC: Date = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDay() + 16))
-                            this.dates = dates.filter(e => !e.locked && todayUTC < e.date)
+                    this.shiftService.get_requested_dates().subscribe({
+                        next: (dates: Date[]) => {
+                            this.dates = dates
                             if (dates.length > 0)
                                 this.selectDate(this.dates[0])
                             this.initialized = true
@@ -66,13 +63,13 @@ export class ParamedicRequestedComponent {
         this.query()
     }
 
-    selectDate(date: DateDTO): void {
+    selectDate(date: Date): void {
         this.selected_date = date
         this.query()
     }
 
     private query(): void {
-        this.shiftService.get_requested(this.selected_user.id, this.selected_date.date.getFullYear(), this.selected_date.date.getMonth() + 1).subscribe({
+        this.shiftService.get_requested(this.selected_user.id, this.selected_date.getFullYear(), this.selected_date.getMonth() + 1).subscribe({
             next: (days: DayRequest[]) => {
                 this.days = days
             }

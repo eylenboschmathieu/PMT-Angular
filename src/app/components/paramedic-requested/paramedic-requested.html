@@ -14,7 +14,7 @@
         }
         <select [(ngModel)]="selected_date" (ngModelChange)="selectDate($event)">
             @for (date of dates; track $index) {
-                <option [ngValue]="date">{{ date.date | date:"MMMM yyyy" }}</option>
+                <option [ngValue]="date">{{ date | date:"MMMM yyyy" }}</option>
             }
         </select>
     </section>
