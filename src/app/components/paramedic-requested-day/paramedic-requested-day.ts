@@ -22,13 +22,12 @@ export class DayShiftRequest {
     }
 
     toggleRequest(index: number) {
-        this.day.shifts[index] = !this.day.shifts[index]
         this.cross_day = this.day.shifts.every(b => b === false)
 
         var ts: ToggleShift = {
             date: this.day.date,
             shift: index,
-            flag: this.day.shifts[index]
+            flag: !this.day.shifts[index]
         }
 
         this.onShiftToggle.emit(ts)

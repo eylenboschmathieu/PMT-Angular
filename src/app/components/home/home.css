@@ -100,8 +100,14 @@ a {
         width: 100dvw;
     }
 
-    section.countdown span {
-        font-size: 1.4em;
+    section.countdown {
+        h1 {
+            font-size: 1em;
+        }
+
+        span {
+            font-size: 1.4em;
+        }
     }
 
     a.link {

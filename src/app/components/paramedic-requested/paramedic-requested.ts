@@ -25,7 +25,7 @@ export class ToggleShift {
 export class ParamedicRequestedComponent {
     constructor(private authService: AuthService, private userService: UserService, private shiftService: ShiftService) {}
 
-    private shifts: number[] = [6, 9, 12, 15, 19]
+    private shifts: number[] = [5, 8, 11, 14, 18]  // UTC hours for shift starts
 
     initialized!: boolean
 
@@ -76,20 +76,20 @@ export class ParamedicRequestedComponent {
         })
     }
 
-    private toDateTime(date: Date, shift: number): Date {
-        return new Date(date.setHours(this.shifts[shift]))
+    private toDateTimeUTC(date: Date, shift: number): Date {
+        return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), this.shifts[shift]))
     }
 
     // Callback from day component
     onShiftToggle(event: ToggleShift) {
-        const day = this.days.find(e => e.date === event.date)
+        let day = this.days.find(e => e.date === event.date)
         if (day) {
-            day.shifts[event.shift] = event.flag
-
-            console.log(this.toDateTime(event.date, event.shift))
-
-            this.shiftService.update_shift_request(this.selected_user.id, day.date, event.flag).subscribe({
-                next: e => console.log("Request updated: " + e)
+            this.shiftService.update_shift_request(this.selected_user.id, this.toDateTimeUTC(day.date, event.shift), event.flag).subscribe({
+                next: e => {
+                    console.log("Request updated: " + e)
+                    if (e)
+                        day.shifts[event.shift] = event.flag
+                }
             })
         }
     }
