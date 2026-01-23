@@ -17,7 +17,7 @@ section {
 section.countdown {
     h1>span {
         font-size: inherit;
-        color: orange;
+        color: yellowgreen;
     }
 
     div {
@@ -31,9 +31,20 @@ section.countdown {
         border-radius: 8px;
         border: 1px solid black;
         padding: 8px;
-        color: orangered;
         min-width: fit-content;
         width: fit-content;
+    }
+
+    .red {
+        color: orangered;
+    }
+
+    .orange {
+        color: orange;
+    }
+
+    .green {
+        color: limegreen;
     }
 }
 
