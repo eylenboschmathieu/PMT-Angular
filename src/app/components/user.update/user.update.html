@@ -1,4 +1,7 @@
-<a class="homelink" routerLink="/home">&#8594; Home</a>
+<div>
+    <a class="homelink" routerLink="/home">&#8594; Home</a>
+    <span class="btn-logout" (click)="logout_all_devices()">Logout on all devices</span>
+</div>
 
 @if (initialized) {
     <form class="form-group" [formGroup]="updateForm" (ngSubmit)="updateUser()">

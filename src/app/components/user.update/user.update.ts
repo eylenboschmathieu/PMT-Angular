@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Role } from '../../entities/Role';
 import { RoleService } from '../../services/role-service';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
     selector: 'app-users.update',
@@ -12,7 +13,7 @@ import { RoleService } from '../../services/role-service';
     styleUrl: './user.update.css',
 })
 export class UserUpdateComponent {
-    constructor(private userService: UserService, private roleService: RoleService, private router: Router, private route: ActivatedRoute) {}
+    constructor(private authService: AuthService, private userService: UserService, private roleService: RoleService, private router: Router, private route: ActivatedRoute) {}
 
     initialized: boolean = false
     user!: UserDataDTO
@@ -71,15 +72,7 @@ export class UserUpdateComponent {
         this.user.roles = this.user.roles.filter(r => r.id !== roleId);
     }
 
-    // toggleActive(userId: number) {
-    //     var index = this.users.findIndex(user => user.id == userId)
-    //     this.userService.put_active(userId, !this.users[index].active).subscribe({
-    //         next: (isUpdated: any) => {
-    //             console.log(isUpdated);
-    //             if (isUpdated) {
-    //                 this.users[index].active = !this.users[index].active
-    //             }
-    //         }
-    //     });
-    // }
+    logout_all_devices() {
+        this.authService.full_logout()
+    }
 }

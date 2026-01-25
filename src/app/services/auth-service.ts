@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, finalize, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
@@ -50,15 +50,17 @@ export class AuthService {
             // google.accounts.id.prompt();  // One Tap
 
             this.initialized = true;
-        } else {
+        } else
             console.log("Failed to initialize Google")
-        }
     }
 
     handleCredentialResponse(google_response: any) {  // callback for google login
         console.log("handleCredentialResponse()");
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8')
-        this.http.post<AuthResponse>(environment.ENDPOINT_URI + "/login", JSON.stringify(google_response.credential), { withCredentials: true, headers: headers }).subscribe({
+        this.http.post<AuthResponse>(
+                environment.ENDPOINT_URI + "/login",
+                JSON.stringify(google_response.credential),
+                { withCredentials: true, headers: headers }).subscribe({
             next: (res: any) => {
                 if (res) {
                     var decoded = this.decodedAccessToken(res.access_token)
@@ -119,8 +121,8 @@ export class AuthService {
                 }
                 return of (res.access_token)
             }),
-            catchError(err => {
-                console.error("AuthService->access->error")
+            catchError((err: HttpErrorResponse) => {
+                console.error(`AuthService->access->error(${err.error})`)
                 return throwError(() => err)
             }),
             finalize(() => {
@@ -130,7 +132,7 @@ export class AuthService {
         )
     }
 
-    refresh(): Observable<AuthResponse> {
+    refresh(): Observable<void> {
         if (this._refreshInProgress.value) {
             console.log("AuthService->refresh->...")
             this._refreshInProgress.pipe(
@@ -143,19 +145,14 @@ export class AuthService {
         this._refreshInProgress.next(true)
 
         console.log("AuthService->refresh")
-        return this.http.post<{ response: AuthResponse }>(environment.ENDPOINT_URI + "/refresh", null, { withCredentials: true }).pipe(
-            tap((success: any) => {
-                if (!success) {
-                    console.log("Refresh not successful");
-                    this.signout();
-                    return throwError(() => new Error("No refresh token returned"))
-                }
-                console.log("AuthService->refresh->", success)
+        return this.http.post<void>(environment.ENDPOINT_URI + "/refresh", null, { withCredentials: true }).pipe(
+            tap(() => {
+                console.log("AuthService->refresh->success")
                 return of();
             }),
-            catchError(err => {
+            catchError((err: HttpErrorResponse) => {
                 this.clear();
-                console.log("AuthService->refresh->error")
+                console.log(`AuthService->refresh->error(${err.error})`)
                 return throwError(() => err)
             }),
             finalize(() => {
@@ -215,15 +212,27 @@ export class AuthService {
         }
     }
 
-    signout() {
+    logout() {
         this.http.post(environment.ENDPOINT_URI + "/logout", null, { withCredentials: true }).subscribe({
-            next: (res: any) => {
-                if (res) {  // Logged out on back-end
-                    console.log("signout()");
-                    this.clear()
-                    google.accounts.id.disableAutoSelect();
-                    this.router.navigate(["/login"]);
-                }
+            next: () => {
+                console.log("logout()");
+                this.clear()
+                google.accounts.id.disableAutoSelect();
+                this.router.navigate(["/login"]);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    full_logout() {  // Log out of all devices
+        this.http.post(environment.ENDPOINT_URI + "/fulllogout", null, { withCredentials: true }).subscribe({
+            next: () => {
+                console.log("full_logout()");
+                this.clear()
+                google.accounts.id.disableAutoSelect();
+                this.router.navigate(["/login"]);
             },
             error: (err) => {
                 console.log(err);

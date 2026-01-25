@@ -5,6 +5,23 @@
     overflow-y: auto;
 }
 
+.btn-logout {
+    width: fit-content;
+    float: right;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid black;
+    background: linear-gradient(to right, rgb(128, 48, 48), gray);
+    text-decoration: none;
+    padding: 8px 8px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: linear-gradient(to right, rgb(128, 48, 48) 80%, gray);
+}
+
 button {
     padding: 8px;
     text-decoration: none;
